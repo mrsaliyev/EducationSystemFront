@@ -1,9 +1,14 @@
-<form [formGroup]="loginForm" (ngSubmit)="login()" class="formLogin">
-  <h1 class="h3 mb-3 fw-normal">Please log in</h1>
-
-  <input name="login" type="text" class="form" placeholder="Username" required>
-
-  <input name="password" type="password" class="formControl" placeholder="Password" required>
-
-  <button class="btn-primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+<div class="alert alert-danger" [hidden]="">
+  There was a problem logging in. Please try again.
+</div>
+<form role="form" (submit)="login()">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" class="form-control" id="username" name="username" [(ngModel)]="credentials.username"/>
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="credentials.password"/>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
