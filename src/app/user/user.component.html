@@ -13,7 +13,7 @@
       <th>ID</th>
       <th>Full name of the user</th>
       <th>Username</th>
-      <th>Password</th>
+      <th>Roles</th>
       <th>Actions</th>
     </tr>
     </thead>
@@ -22,7 +22,7 @@
       <td><span>{{user.id}}</span></td>
       <td><span>{{user.fullName}}</span></td>
       <td><span>{{user.username}}</span></td>
-      <td><span>{{user.password}}</span></td>
+      <td *ngFor="let role of user.roles"><span>{{role.name}}</span></td>
       <td>
         <button class="btn btn-sm btn-info" (click)="openDetails(contentDetails, user)">
           <i class="fa fa-search"></i>Details</button>
@@ -74,9 +74,6 @@
 
     </form>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark">Save</button>
-  </div>
 </ng-template>
 
 
@@ -98,12 +95,12 @@
         </div>
       </div>
 
-      <div>
-        <label for="passwordUser">Password</label>
-        <div class="input-group">
-          <input id="passwordUser" class="form-control" >
-        </div>
-      </div>
+<!--      <div class="form-group">-->
+<!--        <label>Roles</label>-->
+<!--        <div class="input-group" *ngFor="let role of selectUser.roles">-->
+<!--          <input id="{{role.name}}" class="form-control" >-->
+<!--        </div>-->
+<!--      </div>-->
 
     </form>
   </div>

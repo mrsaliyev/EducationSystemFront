@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {any} from 'codelyzer/util/function';
 
 export class User{
   constructor(
     public id: number,
     public fullName: string,
     public username: string,
-    public password: number
+    public roles: any[]
   ){
   }
 }
@@ -19,6 +20,7 @@ export class User{
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  api = '/api'
 
   // @ts-ignore
   users: User[];
@@ -27,6 +29,8 @@ export class UserComponent implements OnInit {
   editForm: FormGroup;
   // @ts-ignore
   deleteID: number;
+
+  selectUser?: User;
 
   constructor(
     private HttpClient: HttpClient,
@@ -40,12 +44,12 @@ export class UserComponent implements OnInit {
       id: [''],
       fullName: [''],
       username: [''],
-      password: ['']
+      roles: []
     } );
   }
 
   getUsers(){
-    this.HttpClient.get<any>('http://localhost:8085/users').subscribe(
+    this.HttpClient.get<any>(this.api + '/user').subscribe(
       response =>{
         console.log(response);
         this.users = response;
@@ -73,7 +77,7 @@ export class UserComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    const url = 'http://localhost:8085/user/addnew';
+    const url = this.api + '/user/addnew';
     this.HttpClient.post(url, f.value)
       .subscribe((result) => {
         this.ngOnInit(); //reload the table
@@ -83,6 +87,7 @@ export class UserComponent implements OnInit {
 
   // @ts-ignore
   openDetails(targetModal, user: User) {
+    this.selectUser = user;
     this.modalService.open(targetModal, {
       centered: true,
       backdrop: 'static',
@@ -93,7 +98,7 @@ export class UserComponent implements OnInit {
     // @ts-ignore
     document.getElementById('usernameUser').setAttribute('value', user.username);
     // @ts-ignore
-    document.getElementById('passwordUser').setAttribute('value', user.password);
+    document.getElementById('rolesUser').setAttribute('value', user.roles);
   }
 
   // @ts-ignore
@@ -107,12 +112,12 @@ export class UserComponent implements OnInit {
       id: user.id,
       fullName: user.fullName,
       username: user.username,
-      password: user.password,
+      roles: user.roles,
     });
   }
 
   onSave() {
-    const editURL = 'http://localhost:8085/user/' + this.editForm.value.id + '/edit';
+    const editURL = this.api + '/user/' + this.editForm.value.id + '/edit';
     console.log(this.editForm.value);
     this.HttpClient.put(editURL, this.editForm.value)
       .subscribe((results) => {
@@ -131,7 +136,7 @@ export class UserComponent implements OnInit {
   }
 
   onDelete() {
-    const deleteURL = 'http://localhost:8085/user/' + this.deleteID + '/delete';
+    const deleteURL = this.api + '/user/delete/' + this.deleteID;
     this.HttpClient.delete(deleteURL)
       .subscribe((results) => {
         this.ngOnInit();
