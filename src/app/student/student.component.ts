@@ -8,7 +8,7 @@ export class Student{
   constructor(
     public id: number,
     public fullName: string,
-    public phone: number,
+    public phone: string,
     public email: string
   ){
   }
@@ -20,6 +20,7 @@ export class Student{
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent implements OnInit {
+  api = '/api';
 
   // @ts-ignore
   students: Student[];
@@ -50,7 +51,7 @@ export class StudentComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   getStudents(){
-    this.HttpClient.get<any>('http://localhost:8083/students').subscribe(
+    this.HttpClient.get<any>(this.api + '/student').subscribe(
       response => {
         console.log(response);
         this.students = response;
@@ -122,7 +123,7 @@ export class StudentComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   onSave() {
-    const editURL = 'http://localhost:8083/student/' + this.editForm.value.id + '/edit';
+    const editURL = this.api + '/edit/' + this.editForm.value.id;
     console.log(this.editForm.value);
     this.HttpClient.put(editURL, this.editForm.value)
       .subscribe((results) => {
@@ -143,7 +144,7 @@ export class StudentComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   onDelete() {
-    const deleteURL = 'http://localhost:8083/student/' + this.deleteID + '/delete';
+    const deleteURL = this.api + '/delete/' + this.deleteID;
     this.HttpClient.delete(deleteURL)
       .subscribe((results) => {
         this.ngOnInit();

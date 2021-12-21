@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm!: FormGroup;
+  credentials = {username: '', password: ''};
 
   constructor(private formBuilder: FormBuilder, private router: Router) { }
 
