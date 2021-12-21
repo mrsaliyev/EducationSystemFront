@@ -17,6 +17,7 @@ import { CourseComponent } from './course/course.component';
 import { StudentComponent } from './student/student.component';
 import { UserComponent } from './user/user.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {CourseService} from './course/course.service';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     NgbModule
   ],
-  providers: [],
+  providers: [CourseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
